@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "No Plastic Week",
+    "description": "Avoid using plastic for one full week.",
+    "progress": 0,
+    "image": "/uploads/challenges/no_plastic_week.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Plant a Tree",
+    "description": "Plant at least one tree this week.",
+    "progress": 0,
+    "image": "/uploads/challenges/plant_tree.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Save Water Weekly",
+    "description": "Track and reduce water usage across the week.",
+    "progress": 0,
+    "image": "/uploads/challenges/save_water.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Participate in Cleanup Drive",
+    "description": "Join a local cleanup drive this week.",
+    "progress": 0,
+    "image": "/uploads/challenges/cleanup_drive.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Switch Off Lights",
+    "description": "Practice energy saving by switching off lights when not in use throughout the week.",
+    "progress": 0,
+    "image": "/uploads/challenges/switch_off_lights.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Use Public Transport",
+    "description": "Commit to using public transport or carpooling at least 7 times this week.",
+    "progress": 0,
+    "image": "/uploads/challenges/public_transport.jpeg"
+  },
+  {
+    "id": 7,
+    "title": "Recycle Weekly Waste",
+    "description": "Segregate and recycle household waste for the entire week.",
+    "progress": 0,
+    "image": "/uploads/challenges/recycle_waste.jpg"
+  },
+  {
+    "id": 9,
+    "title": "Bike to Work",
+    "description": "Use a bicycle for commuting at least 3 times this week.",
+    "progress": 0
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "user_id": 1,
+    "name": "laher",
+    "email": "laher@gmail.com",
+    "password": "$2b$10$/BMfBYw0QftnqxSxI/XEO.3h7i8Ra6h1T.ZKtAIpKVp3jtBp.AJD2",
+    "role": "admin"
+  },
+  {
+    "user_id": 2,
+    "name": "John",
+    "email": "john@gmail.com",
+    "password": "$2b$10$b7Q37eIXxvRmoZihqg8QS.g8r4zDP317SeXYwy3jezELrHA8l8Cjm",
+    "role": "user"
+  },
+  {
+    "user_id": 3,
+    "name": "xyz",
+    "email": "xyz@gmail.com",
+    "password": "$2b$10$CxmSvTQSYeak49J95EjFd.ITACFhs6QVHw3nywM0sCer4phjzdCuG",
+    "role": "user",
+    "eco_points": 60,
+    "completed_challenges": 4
+  },
+  {
+    "user_id": 4,
+    "name": "abc",
+    "email": "abc@gmail.com",
+    "password": "$2b$10$0Fnt.zg8WvW.FfzTyT.jIex4AW9i0berMIX/TrK/HyINMg0XRrjH6",
+    "role": "user"
+  }
+]
