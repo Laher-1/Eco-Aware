@@ -4,7 +4,9 @@
     "name": "laher",
     "email": "laher@gmail.com",
     "password": "$2b$10$/BMfBYw0QftnqxSxI/XEO.3h7i8Ra6h1T.ZKtAIpKVp3jtBp.AJD2",
-    "role": "admin"
+    "role": "admin",
+    "eco_points": 20,
+    "completed_challenges": 2
   },
   {
     "user_id": 2,
