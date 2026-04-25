@@ -10,5 +10,12 @@
     "title": "juhu beach",
     "date": "2026-05-15",
     "time": "08:00:00"
+  },
+  {
+    "id": 3,
+    "title": "Ganga River banks",
+    "date": "2026-07-12",
+    "time": "08:00:00",
+    "location": "Location not specified"
   }
 ]

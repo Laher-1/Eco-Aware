@@ -6,7 +6,7 @@ const cleanupFile = path.join(__dirname, "..", "cleanup.json");
 
 // ✅ Schedule a drive
 const scheduleDrive = (req, res) => {
-  let { title, date, time } = req.body;
+  let { title, date, time, location } = req.body;
 
   // Normalize time to HH:MM:SS
   if (time && time.length === 5) {
@@ -33,7 +33,8 @@ const scheduleDrive = (req, res) => {
       id: drives.length + 1,
       title,
       date,
-      time
+      time,
+      location: location || "Location not specified"
     };
     drives.push(newDrive);
 

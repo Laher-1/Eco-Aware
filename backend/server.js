@@ -199,8 +199,19 @@ app.get("/api/footprint/:user_id", (req, res) => {
     }
     const userFootprints = footprints.filter(f => f.user_id === userId);
     if (userFootprints.length === 0) return res.json({ footprint: null });
-    // Get the latest
-    const latest = userFootprints.sort((a,b) => new Date(b.date) - new Date(a.date))[0];
+    // Get the latest by timestamp, fallback to ID for older entries
+    const latest = userFootprints.sort((a,b) => {
+      // Both have timestamps - sort by timestamp (newest first)
+      if (a.calculated_at && b.calculated_at) {
+        return new Date(b.calculated_at) - new Date(a.calculated_at);
+      }
+      // Only a has timestamp - a comes first (newer)
+      if (a.calculated_at && !b.calculated_at) return -1;
+      // Only b has timestamp - b comes first (newer)  
+      if (!a.calculated_at && b.calculated_at) return 1;
+      // Neither has timestamp - sort by ID (higher ID = more recent)
+      return b.id - a.id;
+    })[0];
     res.json({ footprint: latest.footprint });
   });
 });
@@ -352,7 +363,8 @@ app.post("/api/saveResult", (req, res) => {
       id: results.length + 1,
       footprint: parseFloat(footprint),
       user_id: parseInt(user_id),
-      eco_points: parseInt(ecoPoints)
+      eco_points: parseInt(ecoPoints),
+      calculated_at: new Date().toISOString()
     };
     results.push(newResult);
 
@@ -547,6 +559,116 @@ app.get("/api/scheduled-drives", (req, res) => {
       return res.status(500).json({ error: "Error fetching drives" });
     }
     res.json({ drives: rows });
+  });
+});
+
+// ✅ Quiz Management Endpoints
+// Get all quiz questions
+app.get("/api/quiz", (req, res) => {
+  const quizFile = path.join(__dirname, "quiz.json");
+  fs.readFile(quizFile, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "File error" });
+    let questions = [];
+    try {
+      questions = JSON.parse(data);
+    } catch (e) {
+      questions = [];
+    }
+    res.json(questions);
+  });
+});
+
+// Add new quiz question
+app.post("/api/quiz", (req, res) => {
+  const { question, options, answer } = req.body;
+
+  if (!question || !options || !answer) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const quizFile = path.join(__dirname, "quiz.json");
+  fs.readFile(quizFile, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "File error" });
+
+    let questions = [];
+    try {
+      questions = JSON.parse(data);
+    } catch (e) {
+      questions = [];
+    }
+
+    const newQuestion = {
+      id: questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1,
+      question,
+      options,
+      answer
+    };
+
+    questions.push(newQuestion);
+
+    fs.writeFile(quizFile, JSON.stringify(questions, null, 2), (err) => {
+      if (err) return res.status(500).json({ error: "File write error" });
+      res.json({ success: true, message: "Question added successfully!", question: newQuestion });
+    });
+  });
+});
+
+// Update quiz question
+app.put("/api/quiz/:id", (req, res) => {
+  const questionId = parseInt(req.params.id);
+  const { question, options, answer } = req.body;
+
+  if (!question || !options || !answer) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const quizFile = path.join(__dirname, "quiz.json");
+  fs.readFile(quizFile, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "File error" });
+
+    let questions = [];
+    try {
+      questions = JSON.parse(data);
+    } catch (e) {
+      questions = [];
+    }
+
+    const index = questions.findIndex(q => q.id === questionId);
+    if (index === -1) return res.status(404).json({ error: "Question not found" });
+
+    questions[index] = { id: questionId, question, options, answer };
+
+    fs.writeFile(quizFile, JSON.stringify(questions, null, 2), (err) => {
+      if (err) return res.status(500).json({ error: "File write error" });
+      res.json({ success: true, message: "Question updated successfully!" });
+    });
+  });
+});
+
+// Delete quiz question
+app.delete("/api/quiz/:id", (req, res) => {
+  const questionId = parseInt(req.params.id);
+
+  const quizFile = path.join(__dirname, "quiz.json");
+  fs.readFile(quizFile, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "File error" });
+
+    let questions = [];
+    try {
+      questions = JSON.parse(data);
+    } catch (e) {
+      questions = [];
+    }
+
+    const index = questions.findIndex(q => q.id === questionId);
+    if (index === -1) return res.status(404).json({ error: "Question not found" });
+
+    questions.splice(index, 1);
+
+    fs.writeFile(quizFile, JSON.stringify(questions, null, 2), (err) => {
+      if (err) return res.status(500).json({ error: "File write error" });
+      res.json({ success: true, message: "Question deleted successfully!" });
+    });
   });
 });
 

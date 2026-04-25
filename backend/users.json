@@ -5,8 +5,8 @@
     "email": "laher@gmail.com",
     "password": "$2b$10$/BMfBYw0QftnqxSxI/XEO.3h7i8Ra6h1T.ZKtAIpKVp3jtBp.AJD2",
     "role": "admin",
-    "eco_points": 20,
-    "completed_challenges": 2
+    "eco_points": 60,
+    "completed_challenges": 3
   },
   {
     "user_id": 2,
@@ -30,5 +30,26 @@
     "email": "abc@gmail.com",
     "password": "$2b$10$0Fnt.zg8WvW.FfzTyT.jIex4AW9i0berMIX/TrK/HyINMg0XRrjH6",
     "role": "user"
+  },
+  {
+    "user_id": 5,
+    "name": "Test User",
+    "email": "test@gmail.com",
+    "password": "$2b$10$7nm2dM.YHxbc4roOHOFeSeYvtolmMfoudmxJPlbj0LKnEE3ni2z66",
+    "role": "user"
+  },
+  {
+    "user_id": 6,
+    "name": "ketki",
+    "email": "ketki@gmail.com",
+    "password": "$2b$10$RLpEWlEB5zON9/eP9gy30ufgk4Kiyt6Q0.Etn9q1.tytgVHzCleMq",
+    "role": "user"
+  },
+  {
+    "user_id": 7,
+    "name": "nandini",
+    "email": "nandini@gmail.com",
+    "password": "$2b$10$0FEInoHOtLgdxOsXQjz.7.yCTquRKK9/3CviLeHn8T0rTnFBpugZW",
+    "role": "admin"
   }
 ]

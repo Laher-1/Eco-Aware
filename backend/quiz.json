@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "question": "What is sustainability?",
+    "options": [
+      "Using resources wisely",
+      "Wasting natural resources",
+      "Ignoring environment",
+      "None of these"
+    ],
+    "answer": "Using resources wisely"
+  },
+  {
+    "id": 3,
+    "question": "What reduces carbon footprint?",
+    "options": [
+      "Using plastic",
+      "Driving more",
+      "Planting trees",
+      "Burning waste"
+    ],
+    "answer": "Planting trees"
+  },
+  {
+    "id": 5,
+    "question": "Which material is biodegradable?",
+    "options": [
+      "Plastic bag",
+      "Banana peel",
+      "Glass bottle",
+      "Aluminum can"
+    ],
+    "answer": "Banana peel"
+  },
+  {
+    "id": 6,
+    "question": "What is the 3R principle?",
+    "options": [
+      "Reduce, Reuse, Recycle",
+      "Read, Recall, Rewrite",
+      "Run, Rest, Repeat",
+      "None of these"
+    ],
+    "answer": "Reduce, Reuse, Recycle"
+  },
+  {
+    "id": 8,
+    "question": "Which gas causes global warming?",
+    "options": [
+      "Oxygen",
+      "Carbon dioxide",
+      "Nitrogen",
+      "Helium"
+    ],
+    "answer": "Carbon dioxide"
+  },
+  {
+    "id": 9,
+    "question": "What is composting?",
+    "options": [
+      "Burning waste",
+      "Turning organic waste into fertilizer",
+      "Throwing waste in landfill",
+      "Recycling plastic"
+    ],
+    "answer": "Turning organic waste into fertilizer"
+  },
+  {
+    "id": 12,
+    "question": "What is eco-friendly recycling?",
+    "options": [
+      "Reusing items",
+      "Composting"
+    ],
+    "answer": "Reusing items"
+  },
+  {
+    "id": 13,
+    "question": "In the sustainable slogan \"Reduce, Reuse, Recycle,\" which action is considered the most effective for protecting the environment?",
+    "options": [
+      "A) Recycle",
+      "B) Reuse",
+      "C) Reduce",
+      "D) All are equally effective"
+    ],
+    "answer": "C) Reduce"
+  },
+  {
+    "id": 14,
+    "question": "What happens if you put non-recyclable items (like a greasy pizza box or a plastic bag) into a recycling bin?",
+    "options": [
+      "A) The recycling center workers will just wash it for you.",
+      "B) It can contaminate the entire batch of recycling, causing the whole load to be sent to a landfill.",
+      "C) It gets turned into a lower quality of plastic.",
+      "D) It disappears during the melting process."
+    ],
+    "answer": "B) It can contaminate the entire batch of recycling, causing the whole load to be sent to a landfill."
+  },
+  {
+    "id": 15,
+    "question": "Does a microwave or a coffee maker use electricity when the clock is on but the machine is not cooking or brewing?",
+    "options": [
+      "A) No, electricity only flows when the \"Start\" button is pressed.",
+      "B) Yes, these are called \"Phantom Loads\" and can cost money every month.",
+      "C) Only if the room lights are also on",
+      "D) Only during the daytime"
+    ],
+    "answer": "B) Yes, these are called \"Phantom Loads\" and can cost money every month."
+  },
+  {
+    "id": 16,
+    "question": "Most plastic containers have a small triangle with a number (1 through 7) on the bottom. What is the most important thing this number tells you?",
+    "options": [
+      "A) How many times the bottle has already been recycled.",
+      "B) The grade of plastic (chemical resin type), which determines if your local center can actually recycle it.",
+      "C) How much liquid the bottle can hold",
+      "D) The thickness of the plastic walls."
+    ],
+    "answer": "B) The grade of plastic (chemical resin type), which determines if your local center can actually recycle it."
+  }
+]

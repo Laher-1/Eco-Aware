@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "id": 1,
+    "footprint": 85.5,
+    "user_id": 5,
+    "eco_points": 4
+  },
+  {
+    "id": 2,
+    "footprint": 92.3,
+    "user_id": 5,
+    "eco_points": 3,
+    "calculated_at": "2026-04-17T06:10:38.679Z"
+  },
+  {
+    "id": 3,
+    "footprint": 78.1,
+    "user_id": 5,
+    "eco_points": 5,
+    "calculated_at": "2026-04-17T06:11:15.943Z"
+  },
+  {
+    "id": 4,
+    "footprint": 203,
+    "user_id": 3,
+    "eco_points": 1,
+    "calculated_at": "2026-04-17T06:17:15.958Z"
+  },
+  {
+    "id": 5,
+    "footprint": 140,
+    "user_id": 3,
+    "eco_points": 2,
+    "calculated_at": "2026-04-17T06:18:01.312Z"
+  },
+  {
+    "id": 6,
+    "footprint": 137,
+    "user_id": 1,
+    "eco_points": 2,
+    "calculated_at": "2026-04-17T07:11:44.492Z"
+  },
+  {
+    "id": 7,
+    "footprint": 150,
+    "user_id": 1,
+    "eco_points": 2,
+    "calculated_at": "2026-04-17T08:40:51.639Z"
+  },
+  {
+    "id": 8,
+    "footprint": 138,
+    "user_id": 3,
+    "eco_points": 2,
+    "calculated_at": "2026-04-17T10:13:16.107Z"
+  }
+]
