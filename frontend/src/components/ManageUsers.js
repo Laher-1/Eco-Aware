@@ -12,7 +12,7 @@ function ManageUsers() {
   useEffect(() => {
     fetch("http://localhost:5000/api/all-users")
       .then(res => res.json())
-      .then(data => setAllUsers(data))
+      .then(data => setAllUsers(data.filter(user => user.role !== 'admin')))
       .catch(err => console.error("Error fetching users:", err));
   }, []);
 
