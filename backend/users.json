@@ -51,5 +51,14 @@
     "email": "nandini@gmail.com",
     "password": "$2b$10$0FEInoHOtLgdxOsXQjz.7.yCTquRKK9/3CviLeHn8T0rTnFBpugZW",
     "role": "admin"
+  },
+  {
+    "user_id": 8,
+    "name": "ujaas",
+    "email": "ujaas@gmail.com",
+    "password": "$2b$10$8IunST91h.ikUc.QBbgrkeLpLOPnv0WxnxLfRy6efWbqSe76yq5iS",
+    "role": "user",
+    "eco_points": 30,
+    "completed_challenges": 3
   }
 ]

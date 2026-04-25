@@ -53,16 +53,9 @@ app.get("/api/current-user", (req, res) => {
 
 // ✅ Get all users
 app.get("/api/all-users", (req, res) => {
-  const usersFile = path.join(__dirname, "users.json");
-  fs.readFile(usersFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let users = [];
-    try {
-      users = JSON.parse(data);
-    } catch (e) {
-      users = [];
-    }
-    res.json(users);
+  db.query("SELECT user_id, name, email, role FROM users ORDER BY user_id", (err, results) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    res.json(results);
   });
 });
 
@@ -79,16 +72,9 @@ app.get("/api/test", (req, res) => {
 
 // ✅ Get challenges
 app.get("/api/challenges", (req, res) => {
-  const challengesFile = path.join(__dirname, "challenges.json");
-  fs.readFile(challengesFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let challenges = [];
-    try {
-      challenges = JSON.parse(data);
-    } catch (e) {
-      challenges = [];
-    }
-    res.json(challenges);
+  db.query("SELECT * FROM eco_challenges ORDER BY id", (err, results) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    res.json(results);
   });
 });
 
@@ -96,67 +82,38 @@ app.get("/api/challenges", (req, res) => {
 app.post("/api/add-challenge", upload.single('image'), (req, res) => {
   const { title, description } = req.body;
   const image = req.file ? `/uploads/challenges/${req.file.filename}` : null;
-  const challengesFile = path.join(__dirname, "challenges.json");
-  fs.readFile(challengesFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let challenges = [];
-    try {
-      challenges = JSON.parse(data);
-    } catch (e) {
-      challenges = [];
-    }
-    const newChallenge = {
-      id: challenges.length + 1,
-      title,
-      description,
-      progress: 0,
-      image
-    };
-    challenges.push(newChallenge);
-    fs.writeFile(challengesFile, JSON.stringify(challenges, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "File write error" });
+
+  db.query(
+    "INSERT INTO eco_challenges (title, description, image) VALUES (?, ?, ?)",
+    [title, description, image],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: "Database error" });
       res.json({ success: true, message: "Challenge added successfully!" });
-    });
-  });
+    }
+  );
 });
 
 // ✅ Delete challenge
 app.delete("/api/delete-challenge/:id", (req, res) => {
   const challengeId = parseInt(req.params.id);
-  const challengesFile = path.join(__dirname, "challenges.json");
-  fs.readFile(challengesFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let challenges = [];
-    try {
-      challenges = JSON.parse(data);
-    } catch (e) {
-      challenges = [];
-    }
-    const index = challenges.findIndex(c => c.id === challengeId);
-    if (index === -1) return res.status(404).json({ error: "Challenge not found" });
-    challenges.splice(index, 1);
-    fs.writeFile(challengesFile, JSON.stringify(challenges, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "File write error" });
-      res.json({ success: true, message: "Challenge deleted successfully!" });
-    });
+
+  db.query("DELETE FROM eco_challenges WHERE id = ?", [challengeId], (err, result) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    if (result.affectedRows === 0) return res.status(404).json({ error: "Challenge not found" });
+    res.json({ success: true, message: "Challenge deleted successfully!" });
   });
 });
 
 // ✅ Get user challenge progress
 app.get("/api/challenges/:user_id", (req, res) => {
   const userId = parseInt(req.params.user_id);
-  const usersFile = path.join(__dirname, "users.json");
-  fs.readFile(usersFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let users = [];
-    try {
-      users = JSON.parse(data);
-    } catch (e) {
-      users = [];
-    }
-    const user = users.find(u => u.user_id === userId);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    
+
+  // Get user's eco points and completed challenges from users table
+  db.query("SELECT eco_points, completed_challenges FROM users WHERE user_id = ?", [userId], (err, results) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    if (results.length === 0) return res.status(404).json({ error: "User not found" });
+
+    const user = results[0];
     res.json({
       ecopoints: user.eco_points || 0,
       nooftaskscompleted: user.completed_challenges || 0
@@ -167,180 +124,174 @@ app.get("/api/challenges/:user_id", (req, res) => {
 // ✅ Save user challenge progress
 app.post("/api/challenges", (req, res) => {
   const { user_id, ecopoints, nooftaskscompleted } = req.body;
-  const usersFile = path.join(__dirname, "users.json");
-  fs.readFile(usersFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let users = [];
-    try {
-      users = JSON.parse(data);
-    } catch (e) {
-      users = [];
-    }
-    const userIndex = users.findIndex(u => u.user_id === user_id);
-    if (userIndex === -1) return res.status(404).json({ error: "User not found" });
-    users[userIndex].eco_points = ecopoints;
-    users[userIndex].completed_challenges = nooftaskscompleted;
-    fs.writeFile(usersFile, JSON.stringify(users, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "File write error" });
+
+  db.query(
+    "UPDATE users SET eco_points = ?, completed_challenges = ? WHERE user_id = ?",
+    [ecopoints, nooftaskscompleted, user_id],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      if (result.affectedRows === 0) return res.status(404).json({ error: "User not found" });
       res.json({ success: true });
-    });
-  });
+    }
+  );
 });
 
 // ✅ Get user carbon footprint
 app.get("/api/footprint/:user_id", (req, res) => {
   const userId = parseInt(req.params.user_id);
-  const footprintFile = path.join(__dirname, "footprint.json");
-  fs.readFile(footprintFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let footprints = [];
-    try {
-      footprints = JSON.parse(data);
-    } catch (e) {
-      footprints = [];
+
+  db.query(
+    "SELECT footprint FROM footprint_results WHERE user_id = ? ORDER BY id DESC LIMIT 1",
+    [userId],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      if (results.length === 0) return res.json({ footprint: null });
+      res.json({ footprint: results[0].footprint });
     }
-    const userFootprints = footprints.filter(f => f.user_id === userId);
-    if (userFootprints.length === 0) return res.json({ footprint: null });
-    // Get the latest by timestamp, fallback to ID for older entries
-    const latest = userFootprints.sort((a,b) => {
-      // Both have timestamps - sort by timestamp (newest first)
-      if (a.calculated_at && b.calculated_at) {
-        return new Date(b.calculated_at) - new Date(a.calculated_at);
-      }
-      // Only a has timestamp - a comes first (newer)
-      if (a.calculated_at && !b.calculated_at) return -1;
-      // Only b has timestamp - b comes first (newer)  
-      if (!a.calculated_at && b.calculated_at) return 1;
-      // Neither has timestamp - sort by ID (higher ID = more recent)
-      return b.id - a.id;
-    })[0];
-    res.json({ footprint: latest.footprint });
-  });
+  );
 });
 
 // ✅ Get scheduled drives
 app.get("/api/scheduled-drives", (req, res) => {
-  const cleanupFile = path.join(__dirname, "cleanup.json");
-  fs.readFile(cleanupFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let drives = [];
-    try {
-      drives = JSON.parse(data);
-    } catch (e) {
-      drives = [];
-    }
-    res.json({ drives });
+  db.query("SELECT * FROM cleanup_drive ORDER BY date", (err, results) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    res.json({ drives: results });
   });
 });
 
 // ✅ Register for drive
 app.post("/api/register-drive", (req, res) => {
   const { drive_id, user_id } = req.body;
-  const registrationsFile = path.join(__dirname, "registrations.json");
-  fs.readFile(registrationsFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let registrations = [];
-    try {
-      registrations = JSON.parse(data);
-    } catch (e) {
-      registrations = [];
+
+  if (!drive_id || !user_id) {
+    return res.status(400).json({ error: "Missing drive_id or user_id" });
+  }
+
+  // Check if already registered
+  db.query(
+    "SELECT * FROM drive_registrations WHERE user_id = ? AND drive_id = ?",
+    [user_id, drive_id],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+
+      if (results.length > 0) {
+        return res.status(400).json({ error: "Already registered" });
+      }
+
+      // Register for the drive
+      db.query(
+        "INSERT INTO drive_registrations (user_id, drive_id) VALUES (?, ?)",
+        [user_id, drive_id],
+        (err, result) => {
+          if (err) return res.status(500).json({ error: "Database error" });
+
+          res.json({
+            success: true,
+            message: "Registered successfully!",
+            registration: {
+              id: result.insertId,
+              user_id: parseInt(user_id),
+              drive_id: parseInt(drive_id)
+            }
+          });
+        }
+      );
     }
-    const existing = registrations.find(r => r.drive_id == drive_id && r.user_id == user_id);
-    if (existing) return res.status(400).json({ error: "Already registered" });
-    const newReg = {
-      id: registrations.length + 1,
-      drive_id: parseInt(drive_id),
-      user_id: parseInt(user_id)
-    };
-    registrations.push(newReg);
-    fs.writeFile(registrationsFile, JSON.stringify(registrations, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "File write error" });
-      res.json({ success: true, message: "Registered successfully!" });
-    });
-  });
+  );
 });
 
 // ✅ Get drive registrations
 app.get("/api/drive-registrations", (req, res) => {
-  const registrationsFile = path.join(__dirname, "registrations.json");
-  fs.readFile(registrationsFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let registrations = [];
-    try {
-      registrations = JSON.parse(data);
-    } catch (e) {
-      registrations = [];
+  db.query(
+    `SELECT dr.*, u.name as user_name, u.email, cd.title as drive_title, cd.date, cd.time
+     FROM drive_registrations dr
+     JOIN users u ON dr.user_id = u.user_id
+     JOIN cleanup_drive cd ON dr.drive_id = cd.id
+     ORDER BY dr.registration_time DESC`,
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      res.json(results);
     }
-    res.json(registrations);
-  });
+  );
 });
 
-// ✅ Join drive
+// ✅ Join drive (alternative endpoint)
 app.post("/api/join-drive", (req, res) => {
   const { user_id, drive_id } = req.body;
-  if (!user_id || !drive_id) return res.status(400).json({ error: "Missing user_id or drive_id" });
 
-  const registrationsFile = path.join(__dirname, "registrations.json");
-  fs.readFile(registrationsFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let registrations = [];
-    try {
-      registrations = JSON.parse(data);
-    } catch (e) {
-      registrations = [];
+  if (!user_id || !drive_id) {
+    return res.status(400).json({ error: "Missing user_id or drive_id" });
+  }
+
+  // Check if already registered
+  db.query(
+    "SELECT * FROM drive_registrations WHERE user_id = ? AND drive_id = ?",
+    [user_id, drive_id],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+
+      if (results.length > 0) {
+        return res.status(400).json({ error: "Already registered for this drive" });
+      }
+
+      // Register for the drive
+      db.query(
+        "INSERT INTO drive_registrations (user_id, drive_id) VALUES (?, ?)",
+        [user_id, drive_id],
+        (err, result) => {
+          if (err) return res.status(500).json({ error: "Database error" });
+
+          res.json({
+            message: "Joined successfully",
+            registration: {
+              id: result.insertId,
+              user_id: parseInt(user_id),
+              drive_id: parseInt(drive_id),
+              registration_time: new Date()
+            }
+          });
+        }
+      );
     }
-    const newRegistration = {
-      id: registrations.length + 1,
-      user_id: parseInt(user_id),
-      drive_id: parseInt(drive_id),
-      registration_time: new Date().toISOString()
-    };
-    registrations.push(newRegistration);
-    fs.writeFile(registrationsFile, JSON.stringify(registrations, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "Save error" });
-      res.json({ message: "Joined successfully", registration: newRegistration });
-    });
-  });
+  );
 });
 
-// ✅ All users
-app.get("/api/all-users", (req, res) => {
-  fs.readFile(usersFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let users = [];
-    try {
-      users = JSON.parse(data);
-    } catch (e) {
-      users = [];
-    }
-    res.json(users);
-  });
-});
+
 
 // ✅ User record
 app.post("/api/user-record", (req, res) => {
   const { user_id, name } = req.body;
-  fs.readFile(usersFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-    let users = [];
-    try {
-      users = JSON.parse(data);
-    } catch (e) {
-      users = [];
+
+  if (!user_id && !name) {
+    return res.status(400).json({ error: "Missing user_id or name" });
+  }
+
+  // Find user
+  const userQuery = user_id
+    ? "SELECT * FROM users WHERE user_id = ?"
+    : "SELECT * FROM users WHERE name = ?";
+
+  const userParam = user_id || name;
+
+  db.query(userQuery, [userParam], (err, userResults) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+
+    if (userResults.length === 0) {
+      return res.status(404).json({ error: "User not found" });
     }
-    const user = users.find(u => u.user_id == user_id || u.name === name);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    fs.readFile(footprintFile, "utf8", (err, data2) => {
-      if (err) return res.status(500).json({ error: "File error" });
-      let results = [];
-      try {
-        results = JSON.parse(data2);
-      } catch (e) {
-        results = [];
+
+    const user = userResults[0];
+
+    // Get user's footprint results
+    db.query(
+      "SELECT * FROM footprint_results WHERE user_id = ? ORDER BY id DESC",
+      [user.user_id],
+      (err, footprintResults) => {
+        if (err) return res.status(500).json({ error: "Database error" });
+
+        res.json({ user, results: footprintResults });
       }
-      const userResults = results.filter(r => r.user_id == user.user_id);
-      res.json({ user, results: userResults });
-    });
+    );
   });
 });
 
@@ -348,33 +299,18 @@ app.post("/api/user-record", (req, res) => {
 app.post("/api/saveResult", (req, res) => {
   const { footprint, user_id, ecoPoints } = req.body;
 
-  if (!user_id) return res.status(400).json({ error: "Missing user_id" });
+  if (!user_id) {
+    return res.status(400).json({ error: "Missing user_id" });
+  }
 
-  const footprintFile = path.join(__dirname, "footprint.json");
-  fs.readFile(footprintFile, "utf8", (err, data) => {
-    if (err) return res.status(500).json({ error: "File error" });
-
-    let results = [];
-    try {
-      results = JSON.parse(data);
-    } catch (e) {
-      results = [];
-    }
-
-    const newResult = {
-      id: results.length + 1,
-      footprint: parseFloat(footprint),
-      user_id: parseInt(user_id),
-      eco_points: parseInt(ecoPoints),
-      calculated_at: new Date().toISOString()
-    };
-    results.push(newResult);
-
-    fs.writeFile(footprintFile, JSON.stringify(results, null, 2), (err) => {
-      if (err) return res.status(500).json({ error: "File write error" });
+  db.query(
+    "INSERT INTO footprint_results (footprint, user_id, eco_points) VALUES (?, ?, ?)",
+    [parseFloat(footprint), parseInt(user_id), parseInt(ecoPoints)],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: "Database error" });
       res.json({ success: true, message: "Result and EcoPoints saved successfully!" });
-    });
-  });
+    }
+  );
 });
 
 // ✅ Fetch monthly results
