@@ -1,0 +1,177 @@
+/* Overall container */
+.drive-container {
+  padding: 40px;
+  text-align: center;
+  background: linear-gradient(135deg, #e8f5e9, #f4f9f6);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+/* Section headings */
+.drive-container h1 {
+  font-size: 2.5rem;
+  color: #0b5d3b;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.drive-container p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Grid layout */
+.drive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Drive cards */
+.drive-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.drive-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* Card headings */
+.drive-card h3 {
+  color: #0b5d3b;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* Card text */
+.drive-card p {
+  font-size: 1rem;
+  color: #444;
+  margin: 6px 0;
+}
+
+/* Buttons */
+.drive-card button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2e8b57, #3cb371);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.drive-card button:hover {
+  background: linear-gradient(135deg, #256f47, #2e8b57);
+  transform: scale(1.05);
+}
+
+/* Image styling */
+.drive-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Past cleanup section */
+.past-cleanup-section {
+  margin: 50px auto;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.past-cleanup-section h2 {
+  font-size: 2rem;
+  color: #0b5d3b;
+  margin-bottom: 20px;
+}
+
+.past-cleanup-section p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* Stats cards */
+.impact-stats {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  flex: 1;
+  max-width: 250px;
+}
+
+.stat-card h3 {
+  font-size: 1.5rem;
+  color: #2e8b57;
+  margin-bottom: 8px;
+}
+
+.stat-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Gallery */
+.past-cleanup-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.cleanup-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.cleanup-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* Volunteer stories */
+.volunteer-stories blockquote {
+  font-style: italic;
+  color: #444;
+  margin: 15px auto;
+  max-width: 700px;
+  border-left: 4px solid #2e8b57;
+  padding-left: 15px;
+}
+
+/* Motivational statement */
+.join-statement {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0b5d3b;
+  margin-top: 30px;
+}

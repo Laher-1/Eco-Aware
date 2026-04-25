@@ -1,0 +1,83 @@
+/* Navbar container */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background-color:#0b5d3b;
+font-family:Arial, sans-serif;
+}
+
+/* Website logo */
+.logo{
+color:white;
+font-size:22px;
+font-weight:bold;
+text-decoration: none;
+}
+
+/* Buttons container */
+.nav-buttons{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:flex-end;
+}
+
+/* Button style */
+.nav-btn{
+text-decoration:none;
+background:white;
+color:#0b5d3b;
+padding:8px 16px;
+border-radius:20px;
+font-weight:600;
+transition:all 0.3s ease;
+border:2px solid white;
+}
+
+@media (max-width: 860px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 20px;
+  }
+
+  .nav-buttons {
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .nav-btn {
+    padding: 6px 12px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .nav-buttons {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .nav-btn {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 120px;
+    padding: 6px 10px;
+  }
+}
+
+/* Hover effect */
+.nav-btn:hover{
+background:#7ed957;
+color:#083d2b;
+transform:translateY(-2px);
+box-shadow:0px 4px 10px rgba(0,0,0,0.2);
+}

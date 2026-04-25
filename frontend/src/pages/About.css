@@ -1,0 +1,134 @@
+.about-container {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(to right, #2ecc71, #27ae60);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-hero h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+  animation: fadeInDown 1s ease;
+}
+
+.about-hero p {
+  font-size: 20px;
+  opacity: 0.9;
+  animation: fadeInUp 1.2s ease;
+}
+
+/* Content Section */
+.about-content {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.about-text {
+  margin-bottom: 40px;
+  transition: transform 0.3s ease;
+}
+
+.about-text:hover {
+  transform: translateY(-5px);
+}
+
+.about-text h2 {
+  color: #27ae60;
+  margin-bottom: 12px;
+  font-size: 26px;
+}
+
+.about-text ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-text ul li {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+/* Team Section */
+.about-team {
+  background-color: #f4fdf4;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-team h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #2e7d32;
+}
+
+.team-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.team-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.team-card img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 4px solid #27ae60;
+}
+
+.team-card h3 {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.team-card p {
+  color: #777;
+  font-size: 16px;
+}
+
+/* Footer */
+.about-footer {
+  background: #27ae60;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

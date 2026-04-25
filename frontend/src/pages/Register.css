@@ -1,0 +1,101 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(8, 40, 25, 0.45), rgba(12, 72, 36, 0.65)),
+    url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=2520&q=80")
+      center/cover no-repeat;
+  position: relative;
+  overflow: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(143, 199, 125, 0.34), transparent 35%),
+    radial-gradient(circle at 80% 80%, rgba(78, 176, 115, 0.30), transparent 35%);
+  z-index: 0;
+}
+
+
+ 
+
+.register-box {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 96%);
+  max-width: 700px;
+  padding: 52px 42px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: center;
+  color: #eff9f2;
+}
+
+.register-box h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.30);
+}
+
+.register-box input,
+.role-select {
+  width: 100%;
+  padding: 14px 13px;
+  margin: 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #213d32;
+  font-weight: 600;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.register-box input:focus,
+.role-select:focus {
+  border-color: #66b77a;
+  box-shadow: 0 0 0 4px rgba(102, 183, 122, 0.20);
+}
+
+.register-box button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7dc75b 0%, #2f8a40 100%);
+  color: #f6fef7;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+  box-shadow: 0 10px 20px rgba(17, 73, 43, 0.38);
+}
+
+.register-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(14, 62, 35, 0.5);
+  filter: brightness(1.05);
+}
+
+.register-box p {
+  margin-top: 16px;
+  font-size: 14px;
+  color: rgba(245, 245, 245, 0.92);
+}
+
+.register-box p .navigate {
+  color: #bff2ce;
+  cursor: pointer;
+  font-weight: 700;
+}
