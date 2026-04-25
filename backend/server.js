@@ -10,6 +10,7 @@ const multer = require('multer');
 
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRouts");
+const db = require("./config/db");
 
 const app = express();
 
