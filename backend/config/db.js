@@ -1,38 +1,63 @@
-const sqlite3 = require('sqlite3').verbose();
+const mysql = require('mysql2');
 const path = require('path');
 
-const dbPath = path.join(__dirname, '..', 'ecoaware.db');
-const db = new sqlite3.Database(dbPath, (err) => {
+// MySQL connection configuration
+const db = mysql.createConnection({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'ecoaware'
+});
+
+// Connect to MySQL
+db.connect((err) => {
   if (err) {
-    console.log("Database connection failed");
+    console.log("Database connection failed:", err.message);
   } else {
-    console.log("Connected to SQLite at", dbPath);
+    console.log("Connected to MySQL database");
   }
 });
 
 // Initialize tables
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    email TEXT UNIQUE,
-    password TEXT,
-    role TEXT
-  )`);
+const initTables = () => {
+  const queries = [
+    `CREATE TABLE IF NOT EXISTS users (
+      user_id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255),
+      email VARCHAR(255) UNIQUE,
+      password VARCHAR(255),
+      role VARCHAR(50)
+    )`,
 
-  db.run(`CREATE TABLE IF NOT EXISTS footprint_results (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    footprint REAL,
-    user_id INTEGER,
-    eco_points INTEGER
-  )`);
+    `CREATE TABLE IF NOT EXISTS footprint_results (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      footprint DECIMAL(10,2),
+      user_id INT,
+      eco_points INT
+    )`,
 
-  db.run(`CREATE TABLE IF NOT EXISTS cleanup_drive (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    date TEXT,
-    time TEXT
-  )`);
+    `CREATE TABLE IF NOT EXISTS cleanup_drive (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255),
+      date DATE,
+      time TIME
+    )`
+  ];
+
+  queries.forEach((query, index) => {
+    db.query(query, (err) => {
+      if (err) {
+        console.log(`Error creating table ${index + 1}:`, err.message);
+      } else {
+        console.log(`Table ${index + 1} created successfully`);
+      }
+    });
+  });
+};
+
+// Initialize tables when connection is established
+db.on('connect', () => {
+  initTables();
 });
 
 module.exports = db;
