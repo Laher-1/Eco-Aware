@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="home">
       {/* Hero Section */}
@@ -11,9 +14,9 @@ function Home() {
           <p>
             Small actions today can create a greener tomorrow. Learn sustainable habits and reduce your carbon footprint.
           </p>
-          <a href="/register">
-            <button className="hero-btn">Start Your Eco Journey</button>
-          </a>
+          <button type="button" className="hero-btn" onClick={() => navigate("/register") }>
+            Start Your Eco Journey
+          </button>
         </div>
       </div>
 
@@ -37,19 +40,25 @@ function Home() {
               <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f" alt="Carbon Calculator" />
               <h3>Carbon Footprint Calculator</h3>
               <p>Calculate your daily carbon emissions and get personalized tips to reduce them.</p>
-              <a href="/calculator" className="feature-link">Try Calculator</a>
+              <button type="button" className="feature-link" onClick={() => navigate("/calculator") }>
+                Try Calculator
+              </button>
             </div>
             <div className="feature-card">
               <img src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3" alt="Eco Challenges" />
               <h3>Eco Challenges</h3>
               <p>Participate in fun challenges to adopt sustainable habits and earn rewards.</p>
-              <a href="/challenges" className="feature-link">View Challenges</a>
+              <button type="button" className="feature-link" onClick={() => navigate("/challenges") }>
+                View Challenges
+              </button>
             </div>
             <div className="feature-card">
               <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64" alt="Cleanup Drives" />
               <h3>Cleanup Drives</h3>
               <p>Join or organize community cleanup events to keep our environment clean.</p>
-              <a href="/CleanupDrive" className="feature-link">Join Drive</a>
+              <button type="button" className="feature-link" onClick={() => navigate("/CleanupDrive") }>
+                Join Drive
+              </button>
             </div>
           </div>
         </div>
@@ -85,9 +94,9 @@ function Home() {
         <div className="container">
           <h2>Ready to Make a Change?</h2>
           <p>Join thousands of eco-conscious individuals making a positive impact on our planet.</p>
-          <a href="/register">
-            <button className="cta-btn">Join Eco Aware Today</button>
-          </a>
+          <button type="button" className="cta-btn" onClick={() => navigate("/register") }>
+            Join Eco Aware Today
+          </button>
         </div>
       </section>
     </div>

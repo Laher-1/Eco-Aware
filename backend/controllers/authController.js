@@ -65,18 +65,23 @@ exports.register = (req, res) => {
 exports.login = (req, res) => {
   const { email, password, role } = req.body;
 
-  if (!email || !password || !role) {
-    return res.status(400).json({ message: "All fields are required" });
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
   }
 
-  db.query("SELECT * FROM users WHERE email = ? AND role = ?", [email, role], (err, results) => {
+  db.query("SELECT * FROM users WHERE email = ?", [email], (err, results) => {
     if (err) return res.status(500).json({ message: "Database error" });
 
     if (results.length === 0) {
       return res.json({ success: false, message: "Invalid credentials" });
     }
 
-    const user = results[0];
+    const user = role ? results.find((u) => u.role === role) : results[0];
+
+    if (!user) {
+      return res.json({ success: false, message: "Invalid credentials" });
+    }
+
     const isMatch = bcrypt.compareSync(password, user.password);
 
     if (!isMatch) {

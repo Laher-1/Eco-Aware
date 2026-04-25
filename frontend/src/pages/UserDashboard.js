@@ -79,12 +79,6 @@ return(
 <p>{carbonFootprint ? 'Your latest calculation' : 'Take the calculator to see your footprint'}</p>
 </div>
 
-<div style={{ backgroundColor: '#fff3e0', padding: '20px', borderRadius: '10px', textAlign: 'center' }}>
-<h3>♻️ Recycling Streak</h3>
-<p style={{ fontSize: '36px', fontWeight: 'bold', color: '#f57c00' }}>7 days</p>
-<p>Don't break the chain!</p>
-</div>
-
 </div>
 
 <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '10px' }}>
