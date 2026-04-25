@@ -1,22 +1,30 @@
 const mysql = require('mysql2');
 const path = require('path');
 
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+
 // MySQL connection configuration
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'ecoaware'
+  database: process.env.DB_NAME || 'ecoaware',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-// Connect to MySQL
-db.connect((err) => {
+// Test the connection
+db.getConnection((err, connection) => {
   if (err) {
     console.log("Database connection failed:", err.message);
-  } else {
-    console.log("Connected to MySQL database");
+    return;
   }
+  console.log("Connected to MySQL database");
+  connection.release();
 });
+
+module.exports = db;
 
 // Initialize tables
 const initTables = () => {
